@@ -1,4 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const TaskBoard = () => {
 	const [listTask, setListTask] = useState([]);
@@ -37,10 +39,26 @@ const TaskBoard = () => {
 	useEffect(() => {
 		setNewTask(
 			listTask.map((singleTask, index) => {
-				return <li key={index.toString()}>{singleTask.label}</li>;
+				return (
+					<li key={index.toString()}>
+						{singleTask.label}{" "}
+						<button
+							onClick={() => {
+								DELETE(index);
+
+								console.log(listTask);
+								setMyBoolean(!MyBoolean);
+							}}>
+							<i className="far fa-trash-alt"></i>
+						</button>
+					</li>
+				);
 			})
 		);
 	}, [listTask]);
+	const DELETE = indexToDelete => {
+		setListTask(listTask.filter((_, index) => index !== indexToDelete));
+	};
 	//--------------------------------------------------------------------------------------------
 	useEffect(() => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/stefanobello", {
@@ -73,8 +91,8 @@ const TaskBoard = () => {
 				placeholder="my new task"
 				onKeyDown={event => {
 					if (event.key === "Enter") {
-						console.log(event.target.value);
 						setListTask([
+							...listTask,
 							{ label: event.target.value, done: false }
 						]);
 						setMyBoolean(!MyBoolean);
