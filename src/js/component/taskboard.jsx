@@ -7,10 +7,12 @@ const TaskBoard = () => {
 	const [newTask, setNewTask] = useState("");
 	const [MyBoolean, setMyBoolean] = useState(false);
 	const [totalUsers, setTotalUsers] = useState([]);
-	const mainURL = "https://assets.breatheco.de/apis/fake/todos/user";
+	const mainURL = "https://assets.breatheco.de/apis/fake/todos/user/";
+	const [myUser, setMyUser] = useState("");
+
 	//--------------------------------------------------------
 	useEffect(() => {
-		fetch(mainURL, {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user", {
 			method: "GET",
 			//   body: JSON.stringify(todos),
 			headers: {
@@ -31,7 +33,7 @@ const TaskBoard = () => {
 			.then(data => {
 				//here is were your code should start after the fetch finishes
 				setTotalUsers(data);
-				console.log(data); //this will print on the console the exact object received from the server
+				console.log(data, "aaaaaaaaaaaaaaaaaaaaaaa"); //this will print on the console the exact object received from the server
 			})
 			.catch(error => {
 				//error handling
@@ -40,7 +42,8 @@ const TaskBoard = () => {
 	}, []);
 	//------------------------------------------------------
 	useEffect(() => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/stefanobello", {
+		console.log(myUser, "questo è il my user");
+		fetch(mainURL.concat(myUser), {
 			method: "GET",
 			//   body: JSON.stringify(todos),
 			headers: {
@@ -66,7 +69,7 @@ const TaskBoard = () => {
 				//error handling
 				console.log(error);
 			});
-	}, []);
+	}, [myUser]);
 
 	useEffect(() => {
 		setNewTask(
@@ -93,7 +96,7 @@ const TaskBoard = () => {
 	};
 	//--------------------------------------------------------------------------------------------
 	useEffect(() => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/stefanobello", {
+		fetch(mainURL.concat(myUser), {
 			method: "PUT",
 			body: JSON.stringify(listTask),
 			headers: {
@@ -126,8 +129,10 @@ const TaskBoard = () => {
 						let found = totalUsers.find(
 							element => element === event.target.value
 						);
-						if (found === event.target.value)
-							return mainURL.concat(event.target.value);
+						console.log(found, totalUsers);
+						if (found === event.target.value) {
+							setMyUser(found);
+						}
 					}
 				}}></input>
 			<input
