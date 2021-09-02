@@ -1,6 +1,4 @@
 import React, { useState, Fragment, useEffect } from "react";
-import Button from "react-bootstrap/Button";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const TaskBoard = () => {
 	const [listTask, setListTask] = useState([]);
@@ -14,7 +12,6 @@ const TaskBoard = () => {
 	useEffect(() => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user", {
 			method: "GET",
-			//   body: JSON.stringify(todos),
 			headers: {
 				"Content-Type": "application/json"
 			}
@@ -33,7 +30,7 @@ const TaskBoard = () => {
 			.then(data => {
 				//here is were your code should start after the fetch finishes
 				setTotalUsers(data);
-				console.log(data, "aaaaaaaaaaaaaaaaaaaaaaa"); //this will print on the console the exact object received from the server
+				console.log(data); //this will print on the console the exact object received from the server
 			})
 			.catch(error => {
 				//error handling
@@ -42,7 +39,6 @@ const TaskBoard = () => {
 	}, []);
 	//------------------------------------------------------
 	useEffect(() => {
-		console.log(myUser, "questo è il my user");
 		fetch(mainURL.concat(myUser), {
 			method: "GET",
 			//   body: JSON.stringify(todos),
